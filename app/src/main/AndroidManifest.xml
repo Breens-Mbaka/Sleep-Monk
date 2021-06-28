@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DozeTracker">
         <activity
+            android:name=".ui.OnboardingScreen"
+            android:exported="true" />
+        <activity
+            android:name=".ui.SplashScreen"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
