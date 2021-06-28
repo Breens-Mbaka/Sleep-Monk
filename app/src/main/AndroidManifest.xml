@@ -11,7 +11,8 @@
         android:theme="@style/Theme.DozeTracker">
         <activity
             android:name=".ui.OnboardingScreen"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.SplashScreen"
             android:exported="true"
