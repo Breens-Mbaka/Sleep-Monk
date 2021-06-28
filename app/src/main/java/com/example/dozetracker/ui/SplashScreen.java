@@ -23,6 +23,7 @@ public class SplashScreen extends AppCompatActivity {
             Intent intent = new Intent(SplashScreen.this, OnboardingScreen.class);
             startActivity(intent);
             overridePendingTransition(R.transition.fade_in,R.transition.fade_out);
+            finish();
         },3000);
     }
 }
