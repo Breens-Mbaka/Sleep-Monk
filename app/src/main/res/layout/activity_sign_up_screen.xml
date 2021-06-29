@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="30dp"
+    android:layout_marginStart="30dp"
     android:layout_marginTop="30dp"
     tools:context=".ui.SignInScreen">
 
@@ -13,31 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/noto_sans"
-        android:text="Doze Tracker"
-        android:textStyle="bold"
+        android:text="Sign Up"
         android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sleeping" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/noto_sans"
-        android:text="Sign in"
-        android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextField"
@@ -46,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:hint="Email"
-        app:errorEnabled="true"
         app:boxStrokeColor="#274690"
         app:hintTextColor="#274690"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:errorEnabled="true"
+        app:layout_constraintStart_toStartOf="@id/textView5"
+        app:layout_constraintTop_toBottomOf="@id/textView5"
         app:startIconDrawable="@drawable/ic_baseline_email_24">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -64,20 +44,40 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:hint="Password"
         app:boxStrokeColor="#274690"
         app:hintTextColor="#274690"
         app:errorEnabled="true"
-        app:passwordToggleEnabled="true"
         app:layout_constraintStart_toStartOf="@+id/outlinedTextField"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextField"
+        app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextField3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="Confirm Password"
+        app:boxStrokeColor="#274690"
+        app:hintTextColor="#274690"
+        app:errorEnabled="true"
+        app:layout_constraintStart_toStartOf="@+id/outlinedTextField2"
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextField2"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,12 +88,12 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/noto_sans"
-        android:text="Sign In"
+        android:text=" Sign Up"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="@+id/outlinedTextField2"
-        app:layout_constraintTop_toBottomOf="@+id/outlinedTextField2" />
+        app:layout_constraintStart_toStartOf="@+id/outlinedTextField3"
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextField3" />
 
     <TextView
         android:id="@+id/textView9"
@@ -101,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/noto_sans"
-        android:text="Or sign in with"
+        android:text="Or sign up with"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
@@ -149,7 +149,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/noto_sans"
-        android:text="@string/register_account_text"
+        android:text="Already have an account? Sign in"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/google_sign_in" />
