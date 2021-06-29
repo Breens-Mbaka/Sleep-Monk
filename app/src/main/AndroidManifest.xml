@@ -11,7 +11,8 @@
         android:theme="@style/Theme.DozeTracker">
         <activity
             android:name=".ui.SignUpScreen"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"/>
         <activity
             android:name=".ui.SignInScreen"
             android:exported="true"
