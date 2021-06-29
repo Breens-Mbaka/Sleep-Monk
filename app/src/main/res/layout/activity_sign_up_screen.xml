@@ -88,7 +88,7 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/noto_sans"
-        android:text="Sign In"
+        android:text=" Sign Up"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="21sp"
