@@ -95,7 +95,7 @@
     <TextView
         android:id="@+id/textView9"
         android:layout_width="116dp"
-        android:layout_height="18dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/noto_sans"
         android:text="Or sign in with"

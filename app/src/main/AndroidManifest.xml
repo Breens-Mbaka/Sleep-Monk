@@ -12,7 +12,7 @@
         <activity
             android:name=".ui.SignInScreen"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"/>
         <activity
             android:name=".ui.OnboardingScreen"
             android:exported="true"
