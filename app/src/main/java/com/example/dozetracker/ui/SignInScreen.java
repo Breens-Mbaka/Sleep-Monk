@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.dozetracker.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +46,4 @@ public class SignInScreen extends AppCompatActivity {
         spannableString.setSpan(foregroundColorSpanPurple, 16, 36, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mRegisterAccountTextView.setText(spannableString);
     }
-
-
 }
