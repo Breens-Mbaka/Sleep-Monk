@@ -20,5 +20,13 @@ public class OnboardingScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_screen);
         ButterKnife.bind(this);
+        getStarted();
+    }
+
+    private void getStarted() {
+        mGetStarted.setOnClickListener(v -> {
+            Intent intent = new Intent(OnboardingScreen.this, SignInScreen.class);
+            startActivity(intent);
+        });
     }
 }
