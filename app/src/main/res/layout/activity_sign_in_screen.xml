@@ -94,13 +94,57 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_width="116dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/noto_sans"
         android:text="Or sign in with"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/button2"
         app:layout_constraintStart_toStartOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/google_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textView9"
+        app:layout_constraintStart_toStartOf="@id/textView9"
+        android:layout_marginTop="25dp"
+        app:cardCornerRadius="100dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/ic_search" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/facebook_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textView9"
+        app:layout_constraintStart_toStartOf="@id/textView9"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="25dp"
+        app:cardCornerRadius="100dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/ic_facebook_app_symbol__1_" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/noto_sans"
+        android:text="@string/register_account_text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/google_sign_in" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Doze Tracker</string>
+    <string name="register_account_text">Not registered? Create a new account</string>
 </resources>
