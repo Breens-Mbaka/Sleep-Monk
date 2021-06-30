@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dozetracker.R;
@@ -17,6 +19,10 @@ import butterknife.ButterKnife;
 
 public class SignUpScreen extends AppCompatActivity {
     @BindView(R.id.textView10) TextView mSignInTextView;
+    @BindView(R.id.emailTextInput) EditText mEmailEditText;
+    @BindView(R.id.passwordTextInput) EditText mPasswordEditText;
+    @BindView(R.id.confirmPasswordTextInput) EditText mConfirmPasswordEditText;
+    @BindView(R.id.createUser) Button mCreateUserButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
