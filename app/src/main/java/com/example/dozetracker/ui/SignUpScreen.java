@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -78,8 +79,9 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if(task.isSuccessful()){
-                        Toast.makeText(SignUpScreen.this, "Authentication successful.",
-                                Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(SignUpScreen.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
@@ -88,17 +90,16 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     }
 
     private void createAuthStateListener() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
-                    Toast.makeText(SignUpScreen.this, "Success user found!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SignUpScreen.this, "User not found.",
-                            Toast.LENGTH_SHORT).show();
-                }
+        mAuthListener = firebaseAuth -> {
+            final FirebaseUser user = firebaseAuth.getCurrentUser();
+            if(user != null) {
+//                Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//                finish();
+            } else {
+                Toast.makeText(SignUpScreen.this, "User not found. Sign up first",
+                        Toast.LENGTH_LONG).show();
             }
         };
     }
@@ -115,5 +116,14 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        boolean isGoodEmail = (email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        if(!isGoodEmail) {
+            mEmailEditText.setError("Please enter a valid email address");
+            return false;
+        }
+        return isGoodEmail;
     }
 }
