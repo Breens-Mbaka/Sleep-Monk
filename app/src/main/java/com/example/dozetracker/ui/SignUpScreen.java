@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dozetracker.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,5 +69,16 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         final String email = mEmailEditText.getText().toString().trim();
         String password = mPasswordEditText.getText().toString().trim();
         String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(SignUpScreen.this, "Authentication successful.",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUpScreen.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
