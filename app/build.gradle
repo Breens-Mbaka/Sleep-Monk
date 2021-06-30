@@ -37,6 +37,9 @@ dependencies {
     //Butterknife
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
     
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
