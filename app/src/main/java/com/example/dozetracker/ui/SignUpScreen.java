@@ -1,5 +1,6 @@
 package com.example.dozetracker.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.dozetracker.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +32,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.createUser) Button mCreateUserButton;
 
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +42,11 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         mSignInTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
+
         changePartOfTextViewColor();
+        createAuthStateListener();
 
         mAuth = FirebaseAuth.getInstance();
-    }
-
-    private void changePartOfTextViewColor() {
-        String text = "Already have an account? Sign in";
-        SpannableString spannableString = new SpannableString(text);
-        ForegroundColorSpan foregroundColorSpanPurple = new ForegroundColorSpan(Color.rgb(51,116,229));
-        spannableString.setSpan(foregroundColorSpanPurple, 25, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mSignInTextView.setText(spannableString);
     }
 
     @Override
@@ -63,6 +60,14 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         if (view == mCreateUserButton) {
             registerNewUser();
         }
+    }
+
+    private void changePartOfTextViewColor() {
+        String text = "Already have an account? Sign in";
+        SpannableString spannableString = new SpannableString(text);
+        ForegroundColorSpan foregroundColorSpanPurple = new ForegroundColorSpan(Color.rgb(51,116,229));
+        spannableString.setSpan(foregroundColorSpanPurple, 25, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mSignInTextView.setText(spannableString);
     }
 
     private void registerNewUser() {
@@ -80,5 +85,35 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void createAuthStateListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user != null) {
+                    Toast.makeText(SignUpScreen.this, "Success user found!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignUpScreen.this, "User not found.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 }
