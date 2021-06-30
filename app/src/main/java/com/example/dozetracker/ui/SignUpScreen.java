@@ -13,6 +13,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,9 +82,12 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         //if invalid email and password a user isn't created and user is shown errors
         if (!validEmail || !validPassword ) return;
+        mCreateUserButton.setText("");
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
+                    mCreateUserButton.setText("Sign Up");
+
                     if(task.isSuccessful()){
                         Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
