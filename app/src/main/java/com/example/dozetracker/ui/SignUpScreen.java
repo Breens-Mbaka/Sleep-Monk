@@ -32,6 +32,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
 
         mSignInTextView.setOnClickListener(this);
+        mCreateUserButton.setOnClickListener(this);
         changePartOfTextViewColor();
     }
 
@@ -45,9 +46,14 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view == mSignInTextView) {
+        if (view == mSignInTextView) {
             Intent intent = new Intent(SignUpScreen.this,SignInScreen.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
+        }
+        if (view == mCreateUserButton) {
+//            registerNewUser();
         }
     }
 }
