@@ -14,16 +14,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dozetracker.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
+    public static final String TAG = SignUpScreen.class.getSimpleName();
+
     @BindView(R.id.textView10) TextView mSignInTextView;
     @BindView(R.id.emailTextInput) EditText mEmailEditText;
     @BindView(R.id.passwordTextInput) EditText mPasswordEditText;
     @BindView(R.id.confirmPasswordTextInput) EditText mConfirmPasswordEditText;
     @BindView(R.id.createUser) Button mCreateUserButton;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         mSignInTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
         changePartOfTextViewColor();
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
     private void changePartOfTextViewColor() {
@@ -53,7 +60,13 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             finish();
         }
         if (view == mCreateUserButton) {
-//            registerNewUser();
+            registerNewUser();
         }
+    }
+
+    private void registerNewUser() {
+        final String email = mEmailEditText.getText().toString().trim();
+        String password = mPasswordEditText.getText().toString().trim();
+        String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
     }
 }
