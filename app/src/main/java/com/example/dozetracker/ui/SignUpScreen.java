@@ -76,6 +76,12 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         String password = mPasswordEditText.getText().toString().trim();
         String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
 
+        boolean validEmail = isValidEmail(email);
+        boolean validPassword = isValidPassword(password, confirmPassword);
+
+        //if invalid email and password a user isn't created and user is shown errors
+        if (!validEmail || !validPassword ) return;
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if(task.isSuccessful()){
@@ -119,11 +125,23 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean isValidEmail(String email) {
+        //Built in regex for checking correct email format(Android Pattern)
         boolean isGoodEmail = (email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches());
-        if(!isGoodEmail) {
+        if (!isGoodEmail) {
             mEmailEditText.setError("Please enter a valid email address");
             return false;
         }
         return isGoodEmail;
+    }
+
+    private boolean isValidPassword(String password, String confirmPassword) {
+        if (password.length() < 6) {
+            mPasswordEditText.setError("Please create a password containing at least 6 characters");
+            return false;
+        } else if (!password.equals(confirmPassword)) {
+            mPasswordEditText.setError("Passwords do not match");
+            return false;
+        }
+        return true;
     }
 }
