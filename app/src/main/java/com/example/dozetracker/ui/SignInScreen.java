@@ -29,13 +29,15 @@ import com.google.firebase.auth.FirebaseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignInScreen extends AppCompatActivity {
+public class SignInScreen extends AppCompatActivity implements View.OnClickListener{
     public static final String TAG = SignInScreen.class.getSimpleName();
 
     @BindView(R.id.textView10) TextView mRegisterAccountTextView;
     @BindView(R.id.emailInput) EditText mEmailInputEditText;
     @BindView(R.id.passwordInput) EditText mPasswordInputEditText;
     @BindView(R.id.signInUser) Button mSignInButton;
+
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -44,8 +46,17 @@ public class SignInScreen extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in_screen);
         ButterKnife.bind(this);
 
+        mAuth = FirebaseAuth.getInstance();
         changePartOfTextViewColor();
         registerAccountText();
+
+        mRegisterAccountTextView.setOnClickListener(this);
+        mSignInButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     private void registerAccountText() {
@@ -62,4 +73,5 @@ public class SignInScreen extends AppCompatActivity {
         spannableString.setSpan(foregroundColorSpanPurple, 16, 36, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mRegisterAccountTextView.setText(spannableString);
     }
+
 }
