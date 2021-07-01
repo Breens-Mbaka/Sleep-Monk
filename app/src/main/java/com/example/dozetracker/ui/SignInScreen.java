@@ -38,17 +38,28 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.signInUser) Button mSignInButton;
 
     private FirebaseAuth mAuth;
-
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_screen);
-        ButterKnife.bind(this);
+
 
         mAuth = FirebaseAuth.getInstance();
-        changePartOfTextViewColor();
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            Log.d(TAG, user.getEmail());
+            if (user != null) {
+                Intent intent = new Intent(SignInScreen.this, SleepEntry.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        };
 
+        ButterKnife.bind(this);
+        changePartOfTextViewColor();
         mRegisterAccountTextView.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
     }
@@ -82,6 +93,29 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
         if (password.equals("")) {
             mPasswordInputEditText.setError("Password cannot be blank");
             return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+            if (!task.isSuccessful()) {
+                Log.w(TAG, "signInWithEmail", task.getException());
+                Toast.makeText(SignInScreen.this, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 }
