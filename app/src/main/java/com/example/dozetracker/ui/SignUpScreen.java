@@ -34,7 +34,6 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.createUser) Button mCreateUserButton;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +41,11 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_sign_up_screen);
         ButterKnife.bind(this);
 
+        mAuth = FirebaseAuth.getInstance();
+
         mSignInTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
-
         changePartOfTextViewColor();
-        createAuthStateListener();
-
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -82,16 +79,15 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         //if invalid email and password a user isn't created and user is shown errors
         if (!validEmail || !validPassword ) return;
-        mCreateUserButton.setText("");
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    mCreateUserButton.setText("Sign Up");
-
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                     if(task.isSuccessful()){
-                        Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Toast.makeText(SignUpScreen.this, "Sign up successful.",
+                                Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, SleepEntry.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(SignUpScreen.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
@@ -99,34 +95,6 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    private void createAuthStateListener() {
-        mAuthListener = firebaseAuth -> {
-            final FirebaseUser user = firebaseAuth.getCurrentUser();
-            if(user != null) {
-//                Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intent);
-//                finish();
-            } else {
-                Toast.makeText(SignUpScreen.this, "User not found. Sign up first",
-                        Toast.LENGTH_LONG).show();
-            }
-        };
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
 
     private boolean isValidEmail(String email) {
         //Built in regex for checking correct email format(Android Pattern)

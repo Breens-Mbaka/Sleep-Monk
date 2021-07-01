@@ -104,8 +104,8 @@
         android:fontFamily="@font/noto_sans"
         android:text="Or sign in with"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/createUser"
-        app:layout_constraintTop_toBottomOf="@+id/createUser" />
+        app:layout_constraintStart_toStartOf="@+id/signInUser"
+        app:layout_constraintTop_toBottomOf="@+id/signInUser" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/google_sign_in"

@@ -17,6 +17,10 @@
         <activity
             android:name=".ui.SignUpScreen"
             android:exported="true"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge"/>
+        <activity
+            android:name=".ui.SignInScreen"
+            android:exported="true"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.SignInScreen"
-            android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
         <activity
             android:name=".ui.OnboardingScreen"
             android:exported="true"
