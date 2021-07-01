@@ -12,12 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DozeTracker">
         <activity
+            android:name=".ui.WelcomeScreen"
+            android:exported="true"
+            android:label="Welcome"/>
+        <activity
             android:name=".ui.SleepEntry"
             android:exported="true" />
         <activity
             android:name=".ui.SignUpScreen"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
         <activity
             android:name=".ui.SignInScreen"
             android:exported="true"
@@ -43,25 +47,26 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.dozetracker.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +40,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Arrays;
+
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = SignUpScreen.class.getSimpleName();
@@ -47,45 +51,64 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.passwordTextInput) EditText mPasswordEditText;
     @BindView(R.id.confirmPasswordTextInput) EditText mConfirmPasswordEditText;
     @BindView(R.id.createUser) Button mCreateUserButton;
+    @BindView(R.id.facebook_sign_in_button) CardView mFacebookSignIn;
 
     private FirebaseAuth mAuth;
     CallbackManager mCallbackManager;
-    LoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_screen);
         ButterKnife.bind(this);
+
         //initializing Facebook SDK
         FacebookSdk.sdkInitialize(SignUpScreen.this);
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create();
-        loginButton = findViewById(R.id.facebook_sign_in);
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
+        initializeFacebookLogin();
 
         mSignInTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
         changePartOfTextViewColor();
     }
 
+    private void initializeFacebookLogin() {
+        mCallbackManager = CallbackManager.Factory.create();
+        mFacebookSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(SignUpScreen.this,
+                        Arrays.asList("email", "public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null ) {
+            updateUI(currentUser);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -114,7 +137,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     private void updateUI(FirebaseUser user) {
         if(user != null) {
-            Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
+            Intent intent = new Intent(SignUpScreen.this, WelcomeScreen.class);
             startActivity(intent);
         } else {
             Toast.makeText(this,"Sign in to continue", Toast.LENGTH_SHORT);
