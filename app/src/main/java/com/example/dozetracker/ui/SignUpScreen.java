@@ -1,28 +1,47 @@
 package com.example.dozetracker.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.example.dozetracker.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = SignUpScreen.class.getSimpleName();
@@ -32,9 +51,10 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.passwordTextInput) EditText mPasswordEditText;
     @BindView(R.id.confirmPasswordTextInput) EditText mConfirmPasswordEditText;
     @BindView(R.id.createUser) Button mCreateUserButton;
+    @BindView(R.id.facebook_sign_in_button) CardView mFacebookSignIn;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    CallbackManager mCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +62,86 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_sign_up_screen);
         ButterKnife.bind(this);
 
+        //initializing Facebook SDK
+        FacebookSdk.sdkInitialize(SignUpScreen.this);
+        mAuth = FirebaseAuth.getInstance();
+
+        // Initialize Facebook Login button
+        initializeFacebookLogin();
+
         mSignInTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
-
         changePartOfTextViewColor();
-        createAuthStateListener();
+    }
 
-        mAuth = FirebaseAuth.getInstance();
+    private void initializeFacebookLogin() {
+        mCallbackManager = CallbackManager.Factory.create();
+        mFacebookSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(SignUpScreen.this,
+                        Arrays.asList("email", "public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null ) {
+            updateUI(currentUser);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(SignUpScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if(user != null) {
+            Intent intent = new Intent(SignUpScreen.this, WelcomeScreen.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this,"Sign in to continue", Toast.LENGTH_SHORT);
+        }
     }
 
     @Override
@@ -82,16 +175,15 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         //if invalid email and password a user isn't created and user is shown errors
         if (!validEmail || !validPassword ) return;
-        mCreateUserButton.setText("");
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    mCreateUserButton.setText("Sign Up");
-
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                     if(task.isSuccessful()){
-                        Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Toast.makeText(SignUpScreen.this, "Sign up successful.",
+                                Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, SleepEntry.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(SignUpScreen.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
@@ -99,34 +191,6 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    private void createAuthStateListener() {
-        mAuthListener = firebaseAuth -> {
-            final FirebaseUser user = firebaseAuth.getCurrentUser();
-            if(user != null) {
-//                Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intent);
-//                finish();
-            } else {
-                Toast.makeText(SignUpScreen.this, "User not found. Sign up first",
-                        Toast.LENGTH_LONG).show();
-            }
-        };
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
 
     private boolean isValidEmail(String email) {
         //Built in regex for checking correct email format(Android Pattern)
