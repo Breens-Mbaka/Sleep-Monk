@@ -38,7 +38,7 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.signInUser) Button mSignInButton;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+//    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +46,17 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_sign_in_screen);
 
 
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = firebaseAuth -> {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            Log.d(TAG, user.getEmail());
-            if (user != null) {
-                Intent intent = new Intent(SignInScreen.this, SleepEntry.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-        };
+//        mAuth = FirebaseAuth.getInstance();
+//        mAuthListener = firebaseAuth -> {
+//            FirebaseUser user = firebaseAuth.getCurrentUser();
+//            Log.d(TAG, user.getEmail());
+//            if (user != null) {
+//                Intent intent = new Intent(SignInScreen.this, SleepEntry.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//                finish();
+//            }
+//        };
 
         ButterKnife.bind(this);
         changePartOfTextViewColor();
@@ -105,17 +105,17 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
 }
