@@ -48,22 +48,9 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
         changePartOfTextViewColor();
-        registerAccountText();
 
         mRegisterAccountTextView.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    private void registerAccountText() {
-        mRegisterAccountTextView.setOnClickListener(v -> {
-            Intent intent = new Intent(this,SignUpScreen.class);
-            startActivity(intent);
-        });
     }
 
     private void changePartOfTextViewColor() {
@@ -74,4 +61,27 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
         mRegisterAccountTextView.setText(spannableString);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == mRegisterAccountTextView) {
+            Intent intent = new Intent(this,SignUpScreen.class);
+            startActivity(intent);
+        }
+        else if(v == mSignInButton) {
+            loginWithPassword();
+        }
+    }
+
+    private void loginWithPassword() {
+        String email = mEmailInputEditText.getText().toString().trim();
+        String password = mPasswordInputEditText.getText().toString().trim();
+        if (email.equals("")) {
+            mEmailInputEditText.setError("Please enter your email");
+            return;
+        }
+        if (password.equals("")) {
+            mPasswordInputEditText.setError("Password cannot be blank");
+            return;
+        }
+    }
 }
