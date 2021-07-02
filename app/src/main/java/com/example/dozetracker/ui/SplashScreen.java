@@ -8,23 +8,35 @@ import android.os.Handler;
 
 import com.example.dozetracker.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreen extends AppCompatActivity {
+    FirebaseAuth mAuth;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        fadeInTransition();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
+        fadeInTransition();
     }
 
     private void fadeInTransition() {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            Intent intent = new Intent(SplashScreen.this, SignInScreen.class);
-            startActivity(intent);
-            overridePendingTransition(R.transition.fade_in,R.transition.fade_out);
-            finish();
+            if (user != null) {
+                Intent intent = new Intent(SplashScreen.this, SleepEntry.class);
+                startActivity(intent);
+                overridePendingTransition(R.transition.fade_in,R.transition.fade_out);
+                finish();
+            } else {
+                Intent intent = new Intent(SplashScreen.this, SignUpScreen.class);
+                startActivity(intent);
+                overridePendingTransition(R.transition.fade_in,R.transition.fade_out);
+                finish();
+            }
         },3000);
     }
 }

@@ -112,7 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/createUser" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/google_sign_in"
+        android:id="@+id/google_sign_in_button"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="25dp"
@@ -137,7 +137,7 @@
         app:cardCornerRadius="100dp"
         app:layout_constraintStart_toEndOf="@id/textView9"
         app:layout_constraintTop_toBottomOf="@id/textView9"
-        app:layout_constraintBottom_toBottomOf="@id/google_sign_in">
+        app:layout_constraintBottom_toBottomOf="@id/google_sign_in_button">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -158,6 +158,6 @@
         android:text="Already have an account? Sign in"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/google_sign_in" />
+        app:layout_constraintTop_toBottomOf="@+id/google_sign_in_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
