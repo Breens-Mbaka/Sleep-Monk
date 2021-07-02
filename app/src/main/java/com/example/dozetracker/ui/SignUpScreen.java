@@ -26,6 +26,11 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -39,12 +44,14 @@ import butterknife.ButterKnife;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Arrays;
 
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = SignUpScreen.class.getSimpleName();
+    private static final int RC_SIGN_IN = 100;
 
     @BindView(R.id.textView10) TextView mSignInTextView;
     @BindView(R.id.emailTextInput) EditText mEmailEditText;
@@ -52,9 +59,11 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.confirmPasswordTextInput) EditText mConfirmPasswordEditText;
     @BindView(R.id.createUser) Button mCreateUserButton;
     @BindView(R.id.facebook_sign_in_button) CardView mFacebookSignIn;
+    @BindView(R.id.google_sign_in_button) CardView mGoogleSignIn;
 
     private FirebaseAuth mAuth;
     CallbackManager mCallbackManager;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +78,47 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         // Initialize Facebook Login button
         initializeFacebookLogin();
 
+        // Initialize Google Sign
+        initializeGoogleSignIn();
+
         mSignInTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
+        mGoogleSignIn.setOnClickListener(this);
         changePartOfTextViewColor();
+    }
+
+    private void initializeGoogleSignIn() {
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+                        Intent intent = new Intent(this, SleepEntry.class);
+                        startActivity(intent);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    }
+                });
     }
 
     private void initializeFacebookLogin() {
@@ -112,8 +159,27 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            Exception exception = task.getException();
+            if(task.isSuccessful()) {
+                try {
+                    // Google Sign In was successful, authenticate with Firebase
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+                    firebaseAuthWithGoogle(account.getIdToken());
+                } catch (ApiException e) {
+                    // Google Sign In failed, update UI appropriately
+                    Log.w(TAG, "Google sign in failed", e);
+                }
+            } else {
+                Log.w(TAG, "Google sign in failed", exception);
+            }
+        }
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -154,6 +220,10 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         }
         if (view == mCreateUserButton) {
             registerNewUser();
+        }
+
+        if(view == mGoogleSignIn) {
+            signIn();
         }
     }
 
