@@ -3,7 +3,6 @@ package com.example.dozetracker.ui;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.dozetracker.MainActivity;
 import com.example.dozetracker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -64,7 +62,6 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
         changePartOfTextViewColor();
         mRegisterAccountTextView.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
     private void changePartOfTextViewColor() {
