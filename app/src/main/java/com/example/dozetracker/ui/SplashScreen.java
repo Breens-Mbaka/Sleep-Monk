@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.example.dozetracker.MainActivity;
 import com.example.dozetracker.R;
@@ -26,16 +27,19 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(SplashScreen.this, R.color.colorPrimaryDark));
     }
 
+
+
     private void fadeInTransition() {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            if (user != null) {
-                Intent intent = new Intent(SplashScreen.this, SleepEntry.class);
+            if (user == null) {
+                Toast.makeText(this,"No user", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SplashScreen.this, SignUpScreen.class);
                 startActivity(intent);
                 overridePendingTransition(R.transition.fade_in,R.transition.fade_out);
                 finish();
             } else {
-                Intent intent = new Intent(SplashScreen.this, SignUpScreen.class);
+                Intent intent = new Intent(SplashScreen.this, NewUserScreen.class);
                 startActivity(intent);
                 overridePendingTransition(R.transition.fade_in,R.transition.fade_out);
                 finish();

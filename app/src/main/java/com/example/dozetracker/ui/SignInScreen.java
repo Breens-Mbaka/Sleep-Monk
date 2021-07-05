@@ -64,7 +64,7 @@ public class SignInScreen extends AppCompatActivity implements View.OnClickListe
         changePartOfTextViewColor();
         mRegisterAccountTextView.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
-        getWindow().setStatusBarColor(ContextCompat.getColor(SignInScreen.this, R.color.colorPrimaryDark));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
     private void changePartOfTextViewColor() {

@@ -5,4 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.SplashScreen"
-    android:background="@drawable/ic_splash_screen__1_"/>
+    android:background="@drawable/splash_screen"/>

@@ -14,20 +14,7 @@
         <activity
             android:name=".ui.NewUserScreen"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.WelcomeScreen"
-            android:exported="true"
-            android:label="Welcome" />
-        <activity
-            android:name=".ui.SleepEntry"
-            android:exported="true" />
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge"/>
         <activity
             android:name=".ui.SignUpScreen"
             android:exported="true"
@@ -43,7 +30,13 @@
         <activity
             android:name=".ui.SplashScreen"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true" />
