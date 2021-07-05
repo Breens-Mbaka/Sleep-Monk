@@ -19,7 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
+import com.example.dozetracker.MainActivity;
 import com.example.dozetracker.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -91,6 +93,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         mCreateUserButton.setOnClickListener(this);
         mGoogleSignIn.setOnClickListener(this);
         changePartOfTextViewColor();
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignUpScreen.this, R.color.colorPrimaryDark));
     }
 
     private void initializeFacebookLogin() {

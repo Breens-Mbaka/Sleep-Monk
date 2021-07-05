@@ -1,11 +1,13 @@
 package com.example.dozetracker.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.dozetracker.MainActivity;
 import com.example.dozetracker.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +23,7 @@ public class SplashScreen extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         fadeInTransition();
+        getWindow().setStatusBarColor(ContextCompat.getColor(SplashScreen.this, R.color.colorPrimaryDark));
     }
 
     private void fadeInTransition() {

@@ -1,6 +1,7 @@
 package com.example.dozetracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 

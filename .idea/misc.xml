@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_amico.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/drawable/ic_bro.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/drawable/ic_ellipse_3__1_.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/ic_sleeping.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/ic_splash_screen.xml" value="0.5" />

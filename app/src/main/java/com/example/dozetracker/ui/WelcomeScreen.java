@@ -1,6 +1,7 @@
 package com.example.dozetracker.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dozetracker.MainActivity;
 import com.example.dozetracker.R;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +39,7 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
         mEmail.setOnClickListener(this);
         mProfile.setOnClickListener(this);
         displayProfile();
+        getWindow().setStatusBarColor(ContextCompat.getColor(WelcomeScreen.this, R.color.colorPrimaryDark));
     }
 
     @Override
