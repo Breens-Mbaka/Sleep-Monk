@@ -3,14 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_amico.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/drawable/ic_bro.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/drawable/ic_ellipse_3__1_.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/ic_sleeping.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/ic_splash_screen.xml" value="0.5" />
         <entry key="app/src/main/res/drawable/rounded_corner.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/rounded_corner_two.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/layout/activity_new_user_screen.xml" value="0.17760416666666667" />
         <entry key="app/src/main/res/layout/activity_onboarding_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_in_screen.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_sign_up_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_sleep_entry.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/activity_welcome_screen.xml" value="0.25" />
       </map>

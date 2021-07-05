@@ -12,12 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DozeTracker">
         <activity
-            android:name=".ui.WelcomeScreen"
+            android:name=".ui.NewUserScreen"
             android:exported="true"
-            android:label="Welcome"/>
-        <activity
-            android:name=".ui.SleepEntry"
-            android:exported="true" />
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge"/>
         <activity
             android:name=".ui.SignUpScreen"
             android:exported="true"
@@ -25,7 +22,7 @@
         <activity
             android:name=".ui.SignInScreen"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
         <activity
             android:name=".ui.OnboardingScreen"
             android:exported="true"

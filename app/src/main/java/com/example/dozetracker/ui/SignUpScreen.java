@@ -19,7 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
+import com.example.dozetracker.MainActivity;
 import com.example.dozetracker.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -91,6 +93,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         mCreateUserButton.setOnClickListener(this);
         mGoogleSignIn.setOnClickListener(this);
         changePartOfTextViewColor();
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignUpScreen.this, R.color.colorPrimaryDark));
     }
 
     private void initializeFacebookLogin() {
@@ -150,7 +153,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     private void updateUI(FirebaseUser user) {
         if(user != null) {
-            Intent intent = new Intent(SignUpScreen.this, WelcomeScreen.class);
+            Intent intent = new Intent(SignUpScreen.this, NewUserScreen.class);
             startActivity(intent);
         } else {
             Toast.makeText(this,"Sign in to continue", Toast.LENGTH_SHORT);
@@ -208,7 +211,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SignUpScreen", "signInWithCredential:success");
-                            Intent intent = new Intent(SignUpScreen.this, SleepEntry.class);
+                            Intent intent = new Intent(SignUpScreen.this, NewUserScreen.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -242,7 +245,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                     if(task.isSuccessful()){
                         Toast.makeText(SignUpScreen.this, "Sign up successful.",
                                 Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(this, SleepEntry.class);
+                        Intent intent = new Intent(this, NewUserScreen.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
